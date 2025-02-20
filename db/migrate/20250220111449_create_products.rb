@@ -4,7 +4,7 @@ class CreateProducts < ActiveRecord::Migration[7.1]
       t.string :title, null: false
       t.string :description
       t.string :size
-      t.decimal :price, precision: 10, scale: 2
+      t.string :price
       t.string :seller_name
       t.jsonb :metadata
       t.string :product_id, null: false

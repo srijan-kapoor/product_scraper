@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_20_111449) do
     t.string "title", null: false
     t.string "description"
     t.string "size"
-    t.decimal "price", precision: 10, scale: 2
+    t.string "price"
     t.string "seller_name"
     t.jsonb "metadata"
     t.string "product_id", null: false
