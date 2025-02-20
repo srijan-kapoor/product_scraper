@@ -47,6 +47,10 @@ gem "bootsnap", "~> 1.17.0", require: false
 
 group :development, :test do
   gem "byebug"
+
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
