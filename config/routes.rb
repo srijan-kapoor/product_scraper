@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do # /api/data
@@ -6,7 +7,7 @@ Rails.application.routes.draw do
     get '/data', to: 'tests#index'
     
     resources :dogs
-
+    resources :products, only: :create
   end
 
   get '*path', to: "static_pages#fallback_index_html", constraints: ->(request) do
