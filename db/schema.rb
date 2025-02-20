@@ -30,6 +30,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_20_111449) do
     t.jsonb "metadata"
     t.string "product_id", null: false
     t.string "url", null: false
+    t.string "image_url"
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

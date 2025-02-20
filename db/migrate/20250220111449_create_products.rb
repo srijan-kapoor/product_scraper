@@ -9,6 +9,7 @@ class CreateProducts < ActiveRecord::Migration[7.1]
       t.jsonb :metadata
       t.string :product_id, null: false
       t.string :url, null: false
+      t.string :image_url
       t.references :category, null: false, foreign_key: true
 
       t.timestamps

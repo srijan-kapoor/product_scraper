@@ -10,7 +10,8 @@ class ProductScraper
     description_fallback: 'div.cPHDOP.col-12-12 div._4gvKMe',
     metadata_dropdown: '.col.col-1-12.cWwIYq',
     metadata_keys: '.col.col-3-12._9NUIO9',
-    metadata_values: '.col.col-9-12.-gXFvC'
+    metadata_values: '.col.col-9-12.-gXFvC',
+    image_url: 'img.DByuf4.IZexXJ.jLEJ7H'
   }
 
   def initialize(product_url)
@@ -28,7 +29,8 @@ class ProductScraper
       seller_name: extract_text(:seller_name),
       description: extract_description,
       metadata: metadata,
-      product_id: extract_product_id
+      product_id: extract_product_id,
+      image_url: extract_image_url
     }
   ensure
     @browser.close if @browser
@@ -49,6 +51,10 @@ class ProductScraper
       description_element = @browser.element(css: SELECTORS[:description_main])
       description_element.exists? ? description_element.text.strip : @browser.element(css: SELECTORS[:description_fallback]).text.strip
     end || 'Description not found'
+  end
+
+  def extract_image_url
+    with_timeout_fallback { @browser.element(css: SELECTORS[:image_url]).attribute('src') } || 'Image URL not found'
   end
 
   def extract_metadata
