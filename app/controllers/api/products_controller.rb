@@ -1,4 +1,10 @@
 class Api::ProductsController < ApplicationController
+
+  def index
+    @products = Product.includes(:category).all
+    render :index
+  end
+
   def create
     product_url = params[:product_url]
 
