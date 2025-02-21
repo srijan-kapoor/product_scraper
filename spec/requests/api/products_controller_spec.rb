@@ -24,11 +24,11 @@ RSpec.describe Api::ProductsController, type: :request do
     context 'when product does not exist' do
       it 'creates a new product' do
         expect {
-          post '/api/products', params: { product_url: valid_url }
+          post '/api/products.json', params: { product_url: valid_url }
         }.to change(Product, :count).by(1)
 
         expect(response).to have_http_status(:created)
-        expect(JSON.parse(response.body)['title']).to eq('Test Product')
+        expect(JSON.parse(response.body)['product']['title']).to eq('Test Product')
       end
     end
 
@@ -37,17 +37,17 @@ RSpec.describe Api::ProductsController, type: :request do
 
       it 'returns the existing product' do
         expect {
-          post '/api/products', params: { product_url: valid_url }
+          post '/api/products.json', params: { product_url: valid_url }
         }.to_not change(Product, :count)
 
         expect(response).to have_http_status(:ok)
-        expect(JSON.parse(response.body)['product_id']).to eq('test_product_id')
+        expect(JSON.parse(response.body)['product']['product_id']).to eq('test_product_id')
       end
     end
 
     context 'when product URL is invalid' do
       it 'returns an error' do
-        post '/api/products', params: { product_url: invalid_url }
+        post '/api/products.json', params: { product_url: invalid_url }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)['error']).to eq('Invalid product URL')
       end
@@ -59,9 +59,27 @@ RSpec.describe Api::ProductsController, type: :request do
       end
 
       it 'returns an error' do
-        post '/api/products', params: { product_url: valid_url }
+        post '/api/products.json', params: { product_url: valid_url }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)['error']).to eq('Invalid product data')
+      end
+    end
+  end
+
+  describe 'GET /products' do
+    context 'when no query is provided' do
+      it 'returns all products' do
+        get '/api/products.json'
+        expect(response).to have_http_status(:ok)
+        expect(JSON.parse(response.body).size).to eq(Product.count)
+      end
+    end
+
+    context 'when a query is provided' do
+      it 'returns products that match the query' do
+        get '/api/products.json', params: { query: 'Test' }
+        expect(response).to have_http_status(:ok)
+        expect(JSON.parse(response.body).size).to eq(Product.where('title ILIKE ?', '%test%').count)
       end
     end
   end
