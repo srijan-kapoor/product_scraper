@@ -1,5 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 
 const ProductItem = ({ products }) => {
   const productsByCategory = {};
@@ -34,7 +35,14 @@ const ProductItem = ({ products }) => {
                     />
                   </div>
                   <div className="card-body">
-                    <h5 className="card-title">{product.title}</h5>
+                    <h5 className="card-title">
+                      <Link
+                        to={`/product/${product.id}`}
+                        state={{ product: product }}
+                      >
+                        {product.title}
+                      </Link>
+                    </h5>
                     <p className="card-text">{product.price}</p>
                   </div>
                   <div className="card-footer">
