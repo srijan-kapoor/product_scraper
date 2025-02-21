@@ -37,13 +37,14 @@ const ScraperForm = ({ onProductAdd }) => {
     <div className="container py-4">
       <div className="row mb-4">
         <div className="col-md-6">
+          <h5 className="mb-2 text-start">Scrape</h5>
           <form onSubmit={handleSubmit} className="d-flex gap-2">
             <input
               type="text"
               className="form-control"
               value={url}
               onChange={e => setUrl(e.target.value)}
-              placeholder="Enter product URL"
+              placeholder="Enter product URL (Flipkart only)"
               disabled={loading}
             />
             <button
