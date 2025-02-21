@@ -21,12 +21,11 @@ class Api::ProductsController < ApplicationController
                                 product_id: product_data[:product_id], 
                                 url: product_url)
 
-    return render json: product, status: :ok if product.persisted?
-
-    product.update(product_data.except(:category))
-
+    @product = product
     if product.persisted?
-      render json: product, status: :created
+      render :show, status: :ok
+    elsif product.update(product_data.except(:category))
+      render :show, status: :created
     else
       render json: { error: 'Failed to create product' }, status: :unprocessable_entity
     end
