@@ -9,5 +9,6 @@ class RefreshProductDataJob < ApplicationJob
 
     product.update(updated_data.except(:category))
     product.category.update(name: updated_data[:category])
+    product.update(last_scraped_at: Time.current)
   end
 end

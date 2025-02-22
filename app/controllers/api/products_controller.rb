@@ -48,3 +48,4 @@ class Api::ProductsController < ApplicationController
     render :show, status: :ok
   end
 end
+

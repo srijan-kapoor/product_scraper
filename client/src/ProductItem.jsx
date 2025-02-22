@@ -1,8 +1,9 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const ProductItem = ({ products }) => {
+const ProductItem = ({ products, setProducts }) => {
   const productsByCategory = {};
   products.forEach(product => {
     const categoryName = product.category.name;
@@ -13,6 +14,18 @@ const ProductItem = ({ products }) => {
   });
 
   const categories = [...new Set(products.map(p => p.category.name))].sort();
+
+  const handleRefetch = async productId => {
+    try {
+      await axios.put(`/api/products/${productId}.json`);
+      alert("Refetch request submitted successfully");
+      setProducts(prevProducts =>
+        prevProducts.map(p => (p.id === productId ? { ...p } : p))
+      );
+    } catch (error) {
+      console.error("Error submitting refetch request:", error);
+    }
+  };
 
   return (
     <div className="container">
@@ -46,9 +59,17 @@ const ProductItem = ({ products }) => {
                     <p className="card-text">{product.price}</p>
                   </div>
                   <div className="card-footer">
-                    <small className="text-muted">
-                      {product.category.name}
-                    </small>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <small className="text-muted">
+                        {product.category.name}
+                      </small>
+                      <button
+                        className="btn btn-sm btn-outline-secondary"
+                        onClick={() => handleRefetch(product.id)}
+                      >
+                        Refetch
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

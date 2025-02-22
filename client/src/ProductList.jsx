@@ -19,7 +19,7 @@ const ProductList = () => {
   return (
     <div className="container">
       <ScraperForm setProducts={setProducts} />
-      <ProductItem products={products} />
+      <ProductItem products={products} setProducts={setProducts} />
     </div>
   );
 };
