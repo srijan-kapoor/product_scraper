@@ -71,3 +71,5 @@ group :test do
 end
 
 gem "watir", "~> 7.3"
+
+gem "sidekiq", "~> 7.3"
