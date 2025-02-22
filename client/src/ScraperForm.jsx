@@ -26,7 +26,12 @@ const ScraperForm = ({ setProducts }) => {
           }
         }
       );
-      setProducts(prevProducts => [...prevProducts, response.data.product]);
+      setProducts(prevProducts => {
+        const existingProducts = prevProducts.filter(
+          p => p.product_id !== response.data.product.product_id
+        );
+        return [...existingProducts, response.data.product];
+      });
       setUrl("");
       setSuccess(true);
     } catch (error) {
