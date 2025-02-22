@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Import React Router v6
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import ProductList from "./ProductList";
 import Search from "./Search";

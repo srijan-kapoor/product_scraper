@@ -36,6 +36,7 @@ https://docs.google.com/document/d/1dMbd50Vb8VT0gluSTUg1pVq7M1Pfi-kszS2N78HJJgc/
 ### Running the Rails Server
 - In one terminal, run `bundle` to install the dependencies.
 - Run `bin/rake db:setup` to create the databases (called product_scraper_development by default).
+- Run `bin/rails db:migrate` to migrate the database.
 - Run `bin/rails s -p 3001` to run the rails server.
 
 ### Running the React Client
@@ -45,6 +46,9 @@ https://docs.google.com/document/d/1dMbd50Vb8VT0gluSTUg1pVq7M1Pfi-kszS2N78HJJgc/
 
 ### Sidekiq
 - Run `bin/rails sidekiq` to run the sidekiq server in a separate terminal.
+
+### Running test suite
+- Run `bundle exec rspec` to run the test suite.
 
 ## Incomplete Aspects and Future Work
 
