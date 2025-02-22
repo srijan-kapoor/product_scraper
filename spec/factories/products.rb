@@ -17,5 +17,6 @@ FactoryBot.define do
       "Width"=>"10 cm"}}
     category
     image_url { "https://www.flipkart.com/some-product-url/p/test_product_id/image.jpg" }
+    last_scraped_at { 7.days.ago }
   end
 end

@@ -83,4 +83,23 @@ RSpec.describe Api::ProductsController, type: :request do
       end
     end
   end
+
+  describe 'PUT /products/:id' do
+    let!(:category) { create(:category, name: 'Audio & Video') }
+    let!(:product) { create(:product, product_id: 'test_product_id', category: category) }
+
+    it 'enqueues the job if the product was scraped more than 7 days ago' do
+      product.update(last_scraped_at: 8.days.ago)
+      put "/api/products/#{product.id}.json"
+
+      expect(response).to have_http_status(:ok)
+      expect(RefreshProductDataJob).to have_been_enqueued.with(product.id)
+    end
+
+    it 'does not enqueue the job if the product was scraped in the last 7 days' do
+      product.update(last_scraped_at: 6.days.ago)
+      put "/api/products/#{product.id}.json"
+      expect(RefreshProductDataJob).not_to have_been_enqueued
+    end
+  end
 end
