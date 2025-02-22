@@ -1,8 +1,8 @@
 class Api::ProductsController < ApplicationController
   def index
-    @products = Product.includes(:category).where('title ILIKE ?', "%#{params[:query]}%") if params[:query].present?
-
     @products = Product.includes(:category).all
+    @products = @products.where('title ILIKE ?', "%#{params[:query]}%") if params[:query].present?
+
     render :index
   end
 
