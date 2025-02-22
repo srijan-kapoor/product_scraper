@@ -35,9 +35,16 @@ class Api::ProductsController < ApplicationController
     )
 
     if @product.update(product_data.except(:category))
+      @product.update(last_scraped_at: Time.current)
       render :show, status: :created
     else
       render json: { error: @product.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
+  end
+
+  def update
+    @product = Product.find(params[:id])
+    RefreshProductDataJob.perform_later(@product.id) if @product.last_scraped_at < 7.days.ago
+    render :show, status: :ok
   end
 end

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get '/data', to: 'tests#index'
     
     resources :dogs
-    resources :products, only: [:create, :index]
+    resources :products, only: [:create, :index, :update]
   end
 
   get '*path', to: "static_pages#fallback_index_html", constraints: ->(request) do
