@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const ScraperForm = ({ onProductAdd }) => {
+const ScraperForm = ({ setProducts }) => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,7 +24,7 @@ const ScraperForm = ({ onProductAdd }) => {
           }
         }
       );
-      onProductAdd();
+      setProducts(prevProducts => [...prevProducts, response.data.product]);
       setUrl("");
     } catch (error) {
       setError(error.response?.data?.error || "Error fetching product");

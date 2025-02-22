@@ -18,7 +18,7 @@ const ProductList = () => {
 
   return (
     <div className="container">
-      <ScraperForm onProductAdd={() => fetchProducts()} />
+      <ScraperForm setProducts={setProducts} />
       <ProductItem products={products} />
     </div>
   );
