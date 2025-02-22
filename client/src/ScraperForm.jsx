@@ -6,11 +6,13 @@ const ScraperForm = ({ setProducts }) => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccess(false);
     try {
       const response = await axios.post(
         "/api/products",
@@ -26,6 +28,7 @@ const ScraperForm = ({ setProducts }) => {
       );
       setProducts(prevProducts => [...prevProducts, response.data.product]);
       setUrl("");
+      setSuccess(true);
     } catch (error) {
       setError(error.response?.data?.error || "Error fetching product");
       console.error("Error fetching product:", error);
@@ -60,13 +63,18 @@ const ScraperForm = ({ setProducts }) => {
               {error}
             </div>
           )}
+          {success && (
+            <div className="alert alert-success mt-3" role="alert">
+              Product successfully added!
+            </div>
+          )}
         </div>
       </div>
 
       {loading && (
         <div className="text-center">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
+          <div className="alert alert-info" role="alert">
+            Scraping in progress. Please wait..
           </div>
         </div>
       )}

@@ -39,7 +39,7 @@ class Api::ProductsController < ApplicationController
     elsif product.update(product_data.except(:category))
       render :show, status: :created
     else
-      render json: { error: 'Failed to create product' }, status: :unprocessable_entity
+      render json: { error: product.errors.full_messages.join(", ") }, status: :unprocessable_entity
     end
   end
 end
