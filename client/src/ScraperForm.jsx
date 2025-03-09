@@ -1,24 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useProductChannel } from "./hooks/useProductChannel";
 
 const ScraperForm = ({ setProducts }) => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleProductUpdate = useCallback(
+    data => {
+      setProducts(prevProducts => {
+        const existingProducts = prevProducts.filter(
+          p => p.product_id !== data.product_id
+        );
+        return [...existingProducts, data];
+      });
+      setLoading(false);
+      setSuccessMessage("Product added!");
+    },
+    [setProducts]
+  );
+
+  const handleError = useCallback(errors => {
+    setError(Array.isArray(errors) ? errors.join(", ") : errors);
+    setLoading(false);
+  }, []);
+
+  useProductChannel(url, handleProductUpdate, handleError);
 
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setSuccess(false);
+    setSuccessMessage("");
+
     try {
       const response = await axios.post(
         "/api/products",
-        {
-          product_url: url
-        },
+        { product_url: url },
         {
           headers: {
             Accept: "application/json",
@@ -26,19 +47,25 @@ const ScraperForm = ({ setProducts }) => {
           }
         }
       );
-      setProducts(prevProducts => {
-        const existingProducts = prevProducts.filter(
-          p => p.product_id !== response.data.product.product_id
-        );
-        return [...existingProducts, response.data.product];
-      });
-      setUrl("");
-      setSuccess(true);
+
+      if (response.status === 200) {
+        // Product already exists
+        setProducts(prevProducts => {
+          const existingProducts = prevProducts.filter(
+            p => p.product_id !== response.data.product.product_id
+          );
+          return [...existingProducts, response.data.product];
+        });
+        setSuccessMessage("Product already exists!");
+        setLoading(false);
+      }
+      // For status 202, we'll wait for WebSocket update
+      // setUrl("");
     } catch (error) {
       setError(error.response?.data?.error || "Error fetching product");
+      setLoading(false);
       console.error("Error fetching product:", error);
     }
-    setLoading(false);
   };
 
   return (
@@ -68,9 +95,9 @@ const ScraperForm = ({ setProducts }) => {
               {error}
             </div>
           )}
-          {success && (
+          {successMessage && (
             <div className="alert alert-success mt-3" role="alert">
-              Product successfully added!
+              {successMessage}
             </div>
           )}
         </div>
