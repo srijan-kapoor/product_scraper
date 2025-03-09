@@ -14,4 +14,5 @@ Rails.application.routes.draw do
     !request.xhr? && request.format.html?
   end
 
+  mount ActionCable.server => '/cable'
 end
