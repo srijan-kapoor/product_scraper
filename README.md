@@ -27,6 +27,7 @@ https://docs.google.com/document/d/1dMbd50Vb8VT0gluSTUg1pVq7M1Pfi-kszS2N78HJJgc/
 - **Ruby on Rails**: 7.1.1
 - **React**: 18.2.0
 - **PostgreSQL**:  14.x
+- **Redis**: 4.0.1
 
 ## Getting Started
 
@@ -46,6 +47,9 @@ https://docs.google.com/document/d/1dMbd50Vb8VT0gluSTUg1pVq7M1Pfi-kszS2N78HJJgc/
 
 ### Sidekiq
 - Run `bin/rails sidekiq` to run the sidekiq server in a separate terminal.
+
+### Redis
+- Run `redis-server` to run the redis server in a separate terminal.
 
 ### Running test suite
 - Run `bundle exec rspec` to run the test suite.
