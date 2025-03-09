@@ -79,7 +79,9 @@ class ProductScraper
 
   def with_timeout_fallback(timeout: 10)
     Watir::Wait.until(timeout: timeout) { yield }
-  rescue StandardError
+  rescue Watir::Wait::TimeoutError => e
+  rescue Watir::Exception::UnknownObjectException => e
+    Rails.logger.warn("Timeout: #{e.message}")
     nil
   end
 end
