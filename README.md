@@ -1,5 +1,7 @@
 # Product Scraper
 
+A simple scraper that scrapes product data from ecommerce website like Flipkart and displays it in a React app.
+
 ![Screenshot 2025-02-22 at 17 31 39](https://github.com/user-attachments/assets/ec6b6b9e-bed4-4c3d-9495-c9532167d934)
 
 ![Screenshot 2025-02-22 at 17 33 00](https://github.com/user-attachments/assets/bfd68fa3-3b9b-44c0-90e0-9d0e68b195f2)
@@ -8,6 +10,7 @@
 
 - **Architecture**: The application is built using a client-server model with a Ruby on Rails backend and a React frontend.
 - **Database**: It uses PostgreSQL for its robustness and scalability.
+- **In-Memory Store**: It uses Redis as an in-memory data store for caching and handling background job queues with Sidekiq.
 - **Scraping Library**: Waitr, an open-source library for scraping product data and mimicing user behavior in browser.
 
 ## Assumptions
