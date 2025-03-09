@@ -14,31 +14,15 @@ class Api::ProductsController < ApplicationController
                     status: :unprocessable_entity
     end
 
-    # product exist in db
+    # Check if product exists in db
     @product = Product.includes(:category).find_by(url: product_url)
-    return render :show, status: :ok if @product
 
-    # scrape if product not in db
-    product_scraper = ProductScraper.new(product_url)
-    product_data = product_scraper.scrape
-
-    unless product_data && product_data[:product_id].present?
-      return render json: { error: 'Invalid product data' }, status: :unprocessable_entity
-    end
-
-    category = Category.find_or_initialize_by(name: product_data[:category])
-    category.save
-
-    @product = category.products.find_or_initialize_by(
-      product_id: product_data[:product_id],
-      url: product_url
-    )
-
-    if @product.update(product_data.except(:category))
-      @product.update(last_scraped_at: Time.current)
-      render :show, status: :created
+    if @product
+      render :show, status: :ok
     else
-      render json: { error: @product.errors.full_messages.join(', ') }, status: :unprocessable_entity
+      # Enqueue the scraping job
+      ScrapeProductJob.perform_later(product_url)
+      render json: { message: 'Scraping initiated' }, status: :accepted
     end
   end
 
