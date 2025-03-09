@@ -1,8 +1,5 @@
 # Product Scraper
 
-This repo fulfills the requirement described here<br/>
-https://docs.google.com/document/d/1dMbd50Vb8VT0gluSTUg1pVq7M1Pfi-kszS2N78HJJgc/edit?tab=t.0#heading=h.zfh9vbe22ws6
-
 ![Screenshot 2025-02-22 at 17 31 39](https://github.com/user-attachments/assets/ec6b6b9e-bed4-4c3d-9495-c9532167d934)
 
 ![Screenshot 2025-02-22 at 17 33 00](https://github.com/user-attachments/assets/bfd68fa3-3b9b-44c0-90e0-9d0e68b195f2)
