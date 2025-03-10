@@ -22,13 +22,13 @@ RSpec.describe Api::ProductsController, type: :request do
     end
 
     context 'when product does not exist' do
-      it 'creates a new product' do
+      it 'enqueues a scraping job' do
         expect {
           post '/api/products.json', params: { product_url: valid_url }
-        }.to change(Product, :count).by(1)
+        }.to have_enqueued_job(ScrapeProductJob).with(valid_url)
 
-        expect(response).to have_http_status(:created)
-        expect(JSON.parse(response.body)['product']['title']).to eq('Test Product')
+        expect(response).to have_http_status(:accepted)
+        expect(JSON.parse(response.body)['message']).to eq('Scraping initiated')
       end
     end
 
@@ -50,18 +50,6 @@ RSpec.describe Api::ProductsController, type: :request do
         post '/api/products.json', params: { product_url: invalid_url }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)['error']).to eq('Invalid product URL')
-      end
-    end
-
-    context 'when scraping fails' do
-      before do
-        allow_any_instance_of(ProductScraper).to receive(:scrape).and_return(nil)
-      end
-
-      it 'returns an error' do
-        post '/api/products.json', params: { product_url: valid_url }
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body)['error']).to eq('Invalid product data')
       end
     end
   end

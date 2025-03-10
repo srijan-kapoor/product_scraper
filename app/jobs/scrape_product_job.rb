@@ -35,7 +35,7 @@ class ScrapeProductJob < ApplicationJob
       "product_updates_#{Digest::MD5.hexdigest(product_url)}",
       {
         status: 'complete',
-        product: product.as_json(include: :category),
+        product: product.as_json(include: :category)
       }
     )
   end
