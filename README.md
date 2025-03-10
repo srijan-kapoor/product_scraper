@@ -8,7 +8,7 @@ A simple scraper that scrapes product data from ecommerce website like Flipkart 
 
 ## Design
 
-- **Architecture**: The application is built using a client-server model with a Ruby on Rails backend and a React frontend.
+- **Architecture**: The application is built using a client-server model with a Ruby on Rails backend and a React frontend. It uses ActionCable for real-time updates and Sidekiq for background job processing.
 - **Database**: It uses PostgreSQL for its robustness and scalability.
 - **In-Memory Store**: It uses Redis as an in-memory data store for caching and handling background job queues with Sidekiq.
 - **Scraping Library**: Waitr, an open-source library for scraping product data and mimicing user behavior in browser.
@@ -20,7 +20,7 @@ A simple scraper that scrapes product data from ecommerce website like Flipkart 
 
 ## Limitations
 
-- The scraper is not optimized for scrapping ecommerce websites other than Flipkart and for handling rate limiting.
+- The scraper is not optimized for scrapping ecommerce websites other than Flipkart and for handling rate limits.
 
 ## Project Dependencies
 - **Ruby**: 3.0.1
@@ -57,6 +57,10 @@ A simple scraper that scrapes product data from ecommerce website like Flipkart 
 ## Incomplete Aspects and Future Work
 
 - **Error Handling**: Improve error handling for network failures and unexpected data formats.
-- **Scalability**: Optimize the scraper for handling larger datasets and other ecommerce websites.
+- **Scalability**:
+  - Optimize the scraper for handling larger datasets and other ecommerce websites.
+  - For dynamic updates, store selectors in database or config file.
+  - Usage of data attributes instead of CSS class names.
 - **User Interface**: Enhance the UI for better user experience and accessibility.
+- **Robustness**: Add support for proxy rotation, rotating user agents, etc.
 
